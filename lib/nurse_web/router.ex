@@ -19,6 +19,7 @@ defmodule NurseWeb.Router do
 
     live "/", PageLive, :index
     live "/all-checks", ChecksLive
+    live "/new-check", NewCheckLive
   end
 
   # Other scopes may use custom stacks.

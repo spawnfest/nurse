@@ -1,0 +1,144 @@
+/* Page update option */
+.page_refresh_time_options{
+    float:right;
+}
+
+.pannel_head > * {
+    display: inline-block;
+}
+
+
+.small_select {
+    height: 20px;
+    line-height: 20px;
+    padding: 0px 10px;
+}
+
+/* Checks table */
+.checks_table_body {
+    display: table-row-group;
+}
+
+.checks_table_header{
+    display: table-header-group;
+}
+
+.checks_row .checks_head_row{
+    display:table-row;
+}
+
+.checks_head_row:after {
+    content: "";
+    display: block;
+    border-bottom: 2px solid #ccc;
+}
+
+.checks_row:after {
+    content: "";
+    display: block;
+    border-bottom: 1px solid #ccc;
+}
+
+.checks_table{
+    display:table;
+    table-layout:fixed;
+    width:100%;
+}
+
+.check_cell {
+    float:left;
+    display:table-cell;
+    vertical-align:top;
+    margin: 1.0rem 1.0rem 1.0rem 0.0rem;
+
+}
+
+.check_button_cell {
+    float:right;
+    display:table-cell;
+    margin: 1.0rem 1.0rem 1.0rem 0.0rem;
+    width: 12.0rem;
+}
+
+.check_switch_button {
+    padding:0px;
+}
+#check_status{
+    width: 5.0rem
+}
+
+#check_reference{
+    width: 14.0rem
+}
+
+#check_reference_by_user{
+    width: 14.0rem
+}
+
+#check_endpoint{
+    width: 75.0rem
+}
+
+#check_button_on_off{
+    margin: 1.0rem 1.0rem 1.0rem 0.0rem;
+}
+
+#check_button_configure{
+    margin: 1.0rem 1.0rem 1.0rem 0.0rem;
+}
+
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+.tooltip .tooltip_text {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    right: 110%;
+}
+
+.tooltip .tooltip_text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent black;
+}
+.tooltip:hover .tooltip_text {
+    visibility: visible;
+}
+
+
+/* Check parameters */
+.check_inline_option > div{
+    display: inline-block
+}
+
+.check_inline_option > input{
+    width: 20.0rem
+}
+.check_inline_option > div > p{
+    width: 20.0rem
+}
+
+.check_inblock_option > *{
+    display: inline
+}
+
+/* Success conditions */
+.new_success_condition > div{
+    display:inline-block;
+}

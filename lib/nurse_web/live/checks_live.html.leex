@@ -1,13 +1,61 @@
 
-<label for="page_refresh_time_options">Page refresh time</label>
+<header>
+  <section class="container">
+    <h1>NURSE </h1>
+  </section>
+</header>
 
-<select id="cars" value=<%= @refresh_live_time%> >
-  <option phx-click="set_refresh" phx-value-refresh-time=1 value=1>1 second</option>
-  <option phx-click="set_refresh" phx-value-refresh-time=3 value=3>3 seconds</option>
-  <option phx-click="set_refresh" phx-value-refresh-time=5 value=5>5 seconds</option>
-  <option phx-click="set_refresh" phx-value-refresh-time=10 value=10>10 seconds</option>
-</select>
+<section class="row, container">
+  <div id="pannel_head">
+    <h3>All Checks Pannel</h3>
+    <div class="page_refresh_time_options">
+      <select id="pannel_refresh_time" class="small_select" value=<%= @pannel_refresh_time%> >
+        <option phx-click="set_refresh" phx-value-refresh-time=1 value=1>Refresh every 1 second</option>
+        <option phx-click="set_refresh" phx-value-refresh-time=3 value=3>Refresh every 3 seconds</option>
+        <option phx-click="set_refresh" phx-value-refresh-time=5 value=5>Refresh every 5 seconds</option>
+        <option phx-click="set_refresh" phx-value-refresh-time=10 value=10>Refresh every 10 seconds</option>
+      </select>
+    </div>
+  </div>
+</section>
 
-<div class="jumbotron">
-  <p>Change number (<%= @random_num %>) every <%= @refresh_live_time %> second(s)</p>
-</div>
+<section class="row, container">
+  <form action="/new-check">
+    <input type="submit" value="New check" style="font-size:20px"/>
+  </form>
+</section>
+
+<section class="row, container">
+  <div class="checks_table">
+    <div class="checks_table_header">
+      <div class="checks_head_row">
+        <div class="check_cell" id="check_status">Status</div>
+        <div class="check_cell" id="check_reference">Reference</div>
+        <div class="check_cell" id="check_reference_by_user">Check Name</div>
+        <div class="check_cell" id="check_endpoint">Endpoint</div>
+        <div class="check_cell, check_button_cell" id="check_button_on_off">
+          Switch On/Off
+        </div>
+        <div class="check_cell, check_button_cell" id="check_button_configure">
+          Configure
+        </div>
+      </div>
+    </div>
+    <div class="checks_table_body">
+      <%= for check <- @checks_list do %>
+      <div class="checks_row">
+        <div class="check_cell" id="check_status"><%= check.status %></div>
+        <div class="check_cell" id="check_reference">reference</div>
+        <div class="check_cell" id="check_reference_by_user">reference by user</div>
+        <div class="check_cell" id="check_endpoint">endpoint</div>
+        <div class="check_cell, check_button_cell" id="check_button_configure">
+          <a href="/checks/id">Configure</a>
+        </div>
+        <div class="check_cell, check_button_cell" id="check_button_on_off">
+          <button class="check_switch_button" phx-click="switch_check" phx-value-switch-ref="<%= check.check_reference %>">Turn <%= check.switch_action %> </button>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</section>
