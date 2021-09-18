@@ -1,0 +1,13 @@
+
+<label for="page_refresh_time_options">Page refresh time</label>
+
+<select id="cars" value=<%= @refresh_live_time%> >
+  <option phx-click="set_refresh" phx-value-refresh-time=1 value=1>1 second</option>
+  <option phx-click="set_refresh" phx-value-refresh-time=3 value=3>3 seconds</option>
+  <option phx-click="set_refresh" phx-value-refresh-time=5 value=5>5 seconds</option>
+  <option phx-click="set_refresh" phx-value-refresh-time=10 value=10>10 seconds</option>
+</select>
+
+<div class="jumbotron">
+  <p>Change number (<%= @random_num %>) every <%= @refresh_live_time %> second(s)</p>
+</div>
