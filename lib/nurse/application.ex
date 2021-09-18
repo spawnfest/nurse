@@ -9,8 +9,6 @@ defmodule Nurse.Application do
 
   def start(_type, _args) do
     base_children = [
-      # Start the Ecto repository
-      Nurse.Repo,
       # Start the Telemetry supervisor
       NurseWeb.Telemetry,
       # Start the PubSub system
