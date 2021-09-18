@@ -20,6 +20,8 @@ defmodule Nurse.Condition.Response do
   def check(_response, _response_condition), do: false
 
   @spec status_code_match(Nurse.status_code(), Nurse.code_match()) :: boolean()
+  defp status_code_match(status_code, {:code_equal, status_code}), do: true
+
   defp status_code_match(status_code, {:code_range, first, last}) when status_code in first..last,
     do: true
 

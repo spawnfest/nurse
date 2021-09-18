@@ -35,7 +35,8 @@ defmodule Nurse do
   @type headers_match :: {:headers_match, keyword_list_match()}
   @type body_match :: {:body_match, string_match()}
   @type code_match() ::
-          {:code_range, status_code(), status_code()}
+          {:code_equal, status_code()}
+          | {:code_range, status_code(), status_code()}
           | {:code_class, 1..5}
           | {:code_regex, Regex.t()}
   @type keyword_list_match() ::
