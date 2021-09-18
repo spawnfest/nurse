@@ -3,24 +3,25 @@ defmodule Nurse do
   Nurse
   """
 
-  @type scheme :: :http
-  @type hostname :: binary()
-  @type eport :: :inet.port_number()
-  @type endpoint :: {scheme(), hostname(), eport()}
-
-  @type check_interval :: number()
-  @type check_timeout :: number()
-  @type retry_delay :: number()
+  @type check_delay :: pos_integer()
+  @type retry_delay :: pos_integer()
   @type evaluation_interval :: pos_integer()
 
   @type health_status :: :unknown | :starting | :healthy | :retrying | :unhealthy | :stopped
 
+  @type endpoint :: {scheme(), hostname(), eport()}
+  @type scheme :: :http
+  @type hostname :: binary()
+  @type eport :: :inet.port_number()
+
+  @type connection_timeout :: pos_integer()
+  @type response_timeout :: pos_integer()
+  @type request :: {method(), headers(), body()}
+  @type response :: {status_code(), headers(), body()}
   @type method :: HTTPoison.Request.method()
   @type headers :: HTTPoison.Request.headers()
   @type body :: HTTPoison.Request.body()
   @type status_code :: 100..599
-  @type request :: {method(), headers(), body}
-  @type response :: {status_code(), headers(), body()}
 
   @type unary_logical_operator :: :not
   @type binary_logical_operator :: :and | :or
@@ -34,12 +35,12 @@ defmodule Nurse do
   @type status_code_match :: {:status_code_match, code_match()}
   @type headers_match :: {:headers_match, keyword_list_match()}
   @type body_match :: {:body_match, string_match()}
-  @type code_match() ::
+  @type code_match ::
           {:code_equal, status_code()}
           | {:code_range, status_code(), status_code()}
           | {:code_class, 1..5}
           | {:code_regex, Regex.t()}
-  @type keyword_list_match() ::
+  @type keyword_list_match ::
           {:keyword_list_has_key, String.t()}
           | {:keyword_list_contains, {String.t(), String.t()}}
   @type string_match ::

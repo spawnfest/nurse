@@ -29,11 +29,12 @@ defmodule Nurse.MixProject do
   # Project dependencies.
   defp deps do
     [
+      {:bypass, "~> 2.1", only: :test},
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.11"},
-      {:httpoison, "~> 1.7"},
+      {:httpoison, "~> 1.8"},
       {:jason, "~> 1.0"},
       {:phoenix, "~> 1.5.12"},
       {:phoenix_ecto, "~> 4.4"},
@@ -42,6 +43,7 @@ defmodule Nurse.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.15.1"},
       {:plug_cowboy, "~> 2.0"},
+      {:poison, "~> 5.0"},
       {:postgrex, ">= 0.0.0"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"}

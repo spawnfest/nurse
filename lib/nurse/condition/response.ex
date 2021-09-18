@@ -38,10 +38,11 @@ defmodule Nurse.Condition.Response do
   defp status_code_match(_status_code, _status_code_match), do: false
 
   @spec headers_match(Nurse.headers(), Nurse.keyword_list_match()) :: boolean()
-  defp headers_match(headers, {:keyword_list_has_key, key}), do: headers |> Keyword.has_key?(key)
+  defp headers_match(headers, {:keyword_list_has_key, key}),
+    do: headers |> Keyword.has_key?(String.to_atom(key))
 
   defp headers_match(headers, {:keyword_list_contains, {key, value}}),
-    do: value == Keyword.get(headers, key)
+    do: value == Keyword.get(headers, String.to_atom(key))
 
   defp headers_match(_headers, _headers_match), do: false
 
