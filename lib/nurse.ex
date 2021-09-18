@@ -27,35 +27,43 @@ defmodule Nurse do
 
   @type response_condition :: response_aggregation() | response_leaf()
   @type response_aggregation ::
-          {unary_logical_operator(), health_condition()}
+          {unary_logical_operator(), response_condition()}
           | {binary_logical_operator(), response_condition(), response_condition()}
-  @type response_leaf :: status_code_matches() | header_matches() | body_matches()
+  @type response_leaf :: status_code_match() | headers_match() | body_match()
 
-  @type header_matches :: binary_matches()
-  @type body_matches :: binary_matches()
-  @type status_code_matches ::
-          {:status_code_range, status_code(), status_code()}
-          | {:status_code_class, 1..5}
-          | {:status_code_regex, Regex.t()}
-  @type binary_matches ::
-          {:binary_exact, binary()}
-          | {:binary_iexact, binary()}
-          | {:binary_contains, binary()}
-          | {:binary_icontains, binary()}
-          | {:binary_starts_with, binary()}
-          | {:binary_istarts_with, binary()}
-          | {:binary_ends_with, binary()}
-          | {:binary_iends_with, binary()}
-          | {:binary_regex, Regex.t()}
+  @type status_code_match :: {:status_code_match, code_match()}
+  @type headers_match :: {:headers_match, keyword_list_match()}
+  @type body_match :: {:body_match, string_match()}
+  @type code_match() ::
+          {:code_range, status_code(), status_code()}
+          | {:code_class, 1..5}
+          | {:code_regex, Regex.t()}
+  @type keyword_list_match() ::
+          {:keyword_list_has_key, String.t()}
+          | {:keyword_list_contains, {String.t(), String.t()}}
+  @type string_match ::
+          {:string_exact, String.t()}
+          | {:string_iexact, String.t()}
+          | {:string_contains, String.t()}
+          | {:string_icontains, String.t()}
+          | {:string_starts_with, String.t()}
+          | {:string_istarts_with, String.t()}
+          | {:string_ends_with, String.t()}
+          | {:string_iends_with, String.t()}
+          | {:string_regex, Regex.t()}
+
+  @type probes_results :: {successful_probes(), failed_probes()}
+  @type successful_probes :: [pos_integer()]
+  @type failed_probes :: [pos_integer()]
 
   @type health_condition :: health_aggregation() | health_leaf()
   @type health_aggregation ::
           {unary_logical_operator(), health_condition()}
           | {binary_logical_operator(), health_condition(), health_condition()}
-  @type health_leaf :: successful_probes_matches() | failed_probes_matches()
-  @type successful_probes_matches :: pos_integer_matches()
-  @type failed_probes_matches :: pos_integer_matches()
-  @type pos_integer_matches ::
+  @type health_leaf :: successful_probes_match() | failed_probes_match()
+  @type successful_probes_match :: {:successful_probes_match, pos_integer_match()}
+  @type failed_probes_match :: {:failed_probes_match, pos_integer_match()}
+  @type pos_integer_match ::
           {:pos_integer_equal, pos_integer()}
           | {:pos_integer_gt, pos_integer()}
           | {:pos_integer_gte, pos_integer()}
