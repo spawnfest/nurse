@@ -69,7 +69,7 @@ defmodule Nurse do
           | {:pos_integer_gte, pos_integer()}
           | {:pos_integer_lt, pos_integer()}
           | {:pos_integer_lte, pos_integer()}
-          | {:pos_integer_range, pos_integer()}
+          | {:pos_integer_range, pos_integer(), pos_integer()}
 
   @type retry_condition :: health_condition()
 end
