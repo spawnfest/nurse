@@ -37,27 +37,36 @@ defmodule Nurse.Condition.Response do
 
   defp status_code_match(_status_code, _status_code_match), do: false
 
-  @spec headers_match(Nurse.headers(), Nurse.keyword_list_match()) :: boolean()
-  defp headers_match(headers, {:keyword_list_has_key, key}),
-    do: headers |> Keyword.has_key?(String.to_atom(key))
+  @spec headers_match(Nurse.headers(), Nurse.proplist_match()) :: boolean()
+  defp headers_match(headers, {:proplist_has_key, key}),
+    do: key |> :proplists.is_defined(headers)
 
-  defp headers_match(headers, {:keyword_list_contains, {key, value}}),
-    do: value == Keyword.get(headers, String.to_atom(key))
+  defp headers_match(headers, {:proplist_contains, {key, value}}),
+    do: value == key |> :proplists.get_value(headers)
 
   defp headers_match(_headers, _headers_match), do: false
 
   @spec body_match(Nurse.body(), Nurse.string_match()) :: boolean()
   defp body_match(body, {:string_exact, body}), do: true
-  defp body_match(body, {:string_iexact, string}), do: body |> String.match?(~r/^#{string}$/i)
+
+  defp body_match(body, {:string_iexact, string}),
+    do: body |> String.downcase() == string |> String.downcase()
+
   defp body_match(body, {:string_contains, string}), do: body |> String.contains?(string)
-  defp body_match(body, {:string_icontains, string}), do: body |> String.match?(~r/#{string}/i)
+
+  defp body_match(body, {:string_icontains, string}),
+    do: body |> String.downcase() |> String.contains?(string |> String.downcase())
+
   defp body_match(body, {:string_starts_with, string}), do: body |> String.starts_with?(string)
 
   defp body_match(body, {:string_istarts_with, string}),
-    do: body |> String.match?(~r/^#{string}/i)
+    do: body |> String.downcase() |> String.starts_with?(string |> String.downcase())
 
   defp body_match(body, {:string_ends_with, string}), do: body |> String.ends_with?(string)
-  defp body_match(body, {:string_iends_with, string}), do: body |> String.match?(~r/#{string}$/i)
+
+  defp body_match(body, {:string_iends_with, string}),
+    do: body |> String.downcase() |> String.ends_with?(string |> String.downcase())
+
   defp body_match(body, {:string_regex, regex}), do: body |> String.match?(regex)
   defp body_match(_body, _body_match), do: false
 end

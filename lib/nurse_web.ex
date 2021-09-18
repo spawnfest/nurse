@@ -17,6 +17,10 @@ defmodule NurseWeb do
   and import those modules here.
   """
 
+  @server :nurse_web_server
+
+  defmacro server, do: @server
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: NurseWeb
