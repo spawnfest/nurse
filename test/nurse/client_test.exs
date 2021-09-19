@@ -12,7 +12,7 @@ defmodule Nurse.ClientTest do
 
   describe "Nurse.Client" do
     test "sends and receives correctly a GET request", %{bypass: bypass} do
-      {:ok, body} = Poison.encode(%{"foo" => "bar"})
+      {:ok, body} = Jason.encode(%{"foo" => "bar"})
 
       Bypass.expect(bypass, "GET", "", fn conn ->
         Plug.Conn.resp(conn, 200, body)

@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :nurse,
-  ecto_repos: [Nurse.Repo]
-
 # Configures the endpoint
 config :nurse, NurseWeb.Endpoint,
   url: [host: "localhost"],
