@@ -1,4 +1,4 @@
-defmodule Nurse.ClientTest do
+defmodule Nurse.Test.Client do
   use ExUnit.Case, async: true
 
   @scheme :http
