@@ -1,0 +1,12 @@
+.git
+Dockerfile
+_build/
+cover/
+deps/
+erl_crash.dump
+*.ez
+nurse-*.tar
+npm-debug.log
+assets/node_modules/
+priv/plts/
+healthchecks
