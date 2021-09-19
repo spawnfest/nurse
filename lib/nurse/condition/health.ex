@@ -11,9 +11,9 @@ defmodule Nurse.Condition.Health do
 
   def check(
         {successful_probes, _failed_probes},
-        {:successful_probes_match, succesful_probes_match}
+        {:successful_probes_match, successful_probes_match}
       ),
-      do: pos_integer_match(successful_probes, succesful_probes_match)
+      do: pos_integer_match(successful_probes, successful_probes_match)
 
   def check({_successful_probes, failed_probes}, {:failed_probes_match, failed_probes_match}),
     do: pos_integer_match(failed_probes, failed_probes_match)

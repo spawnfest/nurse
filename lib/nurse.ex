@@ -3,6 +3,10 @@ defmodule Nurse do
   Nurse
   """
 
+  @table :healthchecks
+
+  defmacro table, do: @table
+
   @type check_delay :: pos_integer()
   @type retry_delay :: pos_integer()
   @type evaluation_interval :: pos_integer()
@@ -33,16 +37,16 @@ defmodule Nurse do
   @type response_leaf :: status_code_match() | headers_match() | body_match()
 
   @type status_code_match :: {:status_code_match, code_match()}
-  @type headers_match :: {:headers_match, keyword_list_match()}
+  @type headers_match :: {:headers_match, proplist_match()}
   @type body_match :: {:body_match, string_match()}
   @type code_match ::
           {:code_equal, status_code()}
           | {:code_range, status_code(), status_code()}
           | {:code_class, 1..5}
           | {:code_regex, Regex.t()}
-  @type keyword_list_match ::
-          {:keyword_list_has_key, String.t()}
-          | {:keyword_list_contains, {String.t(), String.t()}}
+  @type proplist_match ::
+          {:proplist_has_key, String.t()}
+          | {:proplist_contains, {String.t(), String.t()}}
   @type string_match ::
           {:string_exact, String.t()}
           | {:string_iexact, String.t()}
@@ -55,8 +59,8 @@ defmodule Nurse do
           | {:string_regex, Regex.t()}
 
   @type probes_results :: {successful_probes(), failed_probes()}
-  @type successful_probes :: [pos_integer()]
-  @type failed_probes :: [pos_integer()]
+  @type successful_probes :: pos_integer()
+  @type failed_probes :: pos_integer()
 
   @type health_condition :: health_aggregation() | health_leaf()
   @type health_aggregation ::
@@ -74,4 +78,6 @@ defmodule Nurse do
           | {:pos_integer_range, pos_integer(), pos_integer()}
 
   @type retry_condition :: health_condition()
+
+  @type healthcheck :: Nurse.Healthcheck.t()
 end

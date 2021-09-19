@@ -1,12 +1,14 @@
 defmodule Nurse.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
-
   use Application
 
+  alias Nurse.Dets
+  alias Nurse.Healthcheck
+
+  require Nurse
+
   def start(_type, _args) do
-    children = [
+    base_children = [
       # Start the Ecto repository
       Nurse.Repo,
       # Start the Telemetry supervisor
@@ -15,12 +17,26 @@ defmodule Nurse.Application do
       {Phoenix.PubSub, name: Nurse.PubSub},
       # Start the Endpoint (http/https)
       NurseWeb.Endpoint
-      # Start a worker by calling: Nurse.Worker.start_link(arg)
-      # {Nurse.Worker, arg}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
+    Nurse.table()
+    |> Dets.open_or_create()
+
+    healthchecks =
+      Nurse.table()
+      |> Dets.table_to_list()
+      |> Enum.map(fn tuple ->
+        tuple |> Healthcheck.from_tuple() |> Healthcheck.update({:health_status, :starting})
+      end)
+
+    workers =
+      healthchecks
+      |> Enum.map(fn healthcheck ->
+        {Nurse.Worker, healthcheck}
+      end)
+
+    children = base_children ++ workers
+
     opts = [strategy: :one_for_one, name: Nurse.Supervisor]
     Supervisor.start_link(children, opts)
   end
