@@ -822,7 +822,7 @@ defmodule NurseWeb.NewCheckLive do
             {:noreply, socket}
 
           true ->
-            Phoenix.LiveView.redirect(socket, "/all-checks")
+            redirect(socket, to: "/all-checks")
         end
 
       false ->
@@ -856,7 +856,7 @@ defmodule NurseWeb.NewCheckLive do
   end
 
   defp validate_input_values(params) do
-    {:error, :missing_params}
+    {:field, "missing_params"}
   end
 
   defp validate_multi([{key, val} | t]) do

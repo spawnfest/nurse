@@ -175,7 +175,7 @@ defmodule Nurse.CondMap do
         <<head::binary-size(condition_id_len)>> <> rest = parent_id
 
         case head do
-          condition_id ->
+          value when value == condition_id ->
             rest_head = String.at(rest, 0)
 
             case rest_head do
@@ -243,7 +243,7 @@ defmodule Nurse.CondMap do
     |> Map.merge(get_son_default_map(son_type))
   end
 
-  def validate(%{}) do
+  def validate(map) when map == %{} do
     false
   end
 
