@@ -139,6 +139,8 @@
 }
 
 /* Success conditions */
-.new_success_condition > div{
+.new_success_condition_selector > div{
     display:inline-block;
 }
+
+

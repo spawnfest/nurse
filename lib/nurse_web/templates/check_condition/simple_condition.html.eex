@@ -1,0 +1,110 @@
+<div class="pannel_body">            
+    <div class="new_success_condition">
+        <div class="new_success_condition_selector">
+            <div class="select_new_condition_type">
+                <select id="new_condition_type" class="small_select">
+                    <option disabled selected value> Select a type of condition </option>
+                    <option phx-click="set_condition_type" phx-value-new-condition-type="status_code" phx-value-new-condition-for-condition="<%= @condition_id %>">Status code condition</option>
+                    <option phx-click="set_condition_type" phx-value-new-condition-type="headers" phx-value-new-condition-for-condition="<%= @condition_id %>">Headers condition</option>
+                    <option phx-click="set_condition_type" phx-value-new-condition-type="body" phx-value-new-condition-for-condition="<%= @condition_id %>">Body condition </option>
+                </select>
+            </div>
+            <%= if Map.fetch(@params, :condition_type) == {:ok, "status_code"} do %>
+                <div class="select_status_code_match">
+                    <select id="status_code_match" class="small_select">
+                        <option disabled selected value> Select a type status code condition </option>
+                        <option phx-click="set_status_code_match" phx-value-status-code-match="equality" phx-value-new-condition-for-condition="<%= @condition_id %>">Equality</option>
+                        <option phx-click="set_status_code_match" phx-value-status-code-match="code_range" phx-value-new-condition-for-condition="<%= @condition_id %>">Code range</option>
+                        <option phx-click="set_status_code_match" phx-value-status-code-match="code_class" phx-value-new-condition-for-condition="<%= @condition_id %>">Code class</option>
+                        <option phx-click="set_status_code_match" phx-value-status-code-match="code_regex" phx-value-new-condition-for-condition="<%= @condition_id %>">Code regex</option>
+                    </select>
+                </div>
+            </div>
+            <div class="new_success_condition_condition">
+                <%= if Map.fetch(@params, :status_code_match) == {:ok, "equality"} do %>
+                    <div class="check_inline_option">
+                        <div class="check_inline_option">
+                            <div class="tooltip">
+                                <span class="tooltip_text">Should negate condition?</span>
+                                <input type="checkbox" id="negate_new_condition" name="negate_new_condition">
+                            </div>
+                        </div>
+                        <div class="tooltip">
+                            <span class="tooltip_text">Text</span>
+                            <input type="text" class="nexto_text" id="status_code_match_equality_val" placeholder="Status Code ..."/>
+                        </div>
+                <% end%>
+                <%= if Map.fetch(@params, :status_code_match) == {:ok, "code_range"} do %>
+                    <div class="check_inline_option">
+                        <div class="check_inline_option">
+                            <div class="tooltip">
+                                <span class="tooltip_text">Should negate condition?</span>
+                                <input type="checkbox" id="negate_new_condition" name="negate_new_condition">
+                            </div>
+                        </div>
+                        <div class="tooltip">
+                            <span class="tooltip_text">Text</span>
+                            <input type="text" class="nexto_text" id="status_code_match_code_range_val" placeholder="Status Code Range..."/>
+                        </div>
+                <% end%>
+                <%= if Map.fetch(@params, :status_code_match) == {:ok, "code_class"} do %>
+                    <div class="check_inline_option">
+                        <div class="check_inline_option">
+                            <div class="tooltip">
+                                <span class="tooltip_text">Should negate condition?</span>
+                                <input type="checkbox" id="negate_new_condition" name="negate_new_condition">
+                            </div>
+                        </div>
+                        <div class="tooltip">
+                            <span class="tooltip_text">Text</span>
+                            <input type="text" class="nexto_text" id="status_code_match_code_class_val" placeholder="Status Code Class ..."/>
+                        </div>
+                <% end%>
+                <%= if Map.fetch(@params, :status_code_match) == {:ok, "code_regex"} do %>
+                    <div class="check_inline_option">
+                        <div class="check_inline_option">
+                            <div class="tooltip">
+                                <span class="tooltip_text">Should negate condition?</span>
+                                <input type="checkbox" id="negate_new_condition" name="negate_new_condition">
+                            </div>
+                        </div>
+                        <div class="tooltip">
+                            <span class="tooltip_text">Text</span>
+                            <input type="text" class="nexto_text" id="status_code_match_code_class_val" placeholder="Status Code RegEx ..."/>
+                        </div>
+                <% end%>
+                <%= if Map.fetch(@params, :status_code_match) in [{:ok, "equality"}, {:ok, "code_range"}, {:ok, "code_class"}, {:ok, "code_regex"} ]do %>
+                        <button>DONE</button>
+                    </div> 
+                <% end %>
+            </div>
+            <% end %>
+            <%= if Map.fetch(@params, @condition_id<>"_type") == "headers" do%>
+                <div class="select_headers_match">
+                    <select id="sheaders_match" class="small_select">
+                        <option disabled selected value> Select a type of header condition </option>
+                        <option phx-click="set_headers_match" phx-value-headers-match="has_header_key" >Has header key</option>
+                        <option phx-click="set_headers_match" phx-value-headers-match="has_header" >Has exact header</option>
+                    </select>
+                </div>
+            <% end %>
+            <%= if Map.fetch(@params, @condition_id<>"_type") == "body" do%>
+                <div class="select_body_match">
+                    <select id="body_match" class="small_select">
+                        <option disabled selected value> Select a type of header condition </option>
+                        <option phx-click="set_body_match" phx-value-body-match="exact" >Body exactly matches ...</option>
+                        <option phx-click="set_body_match" phx-value-body-match="iexact" >Body exactly matches ...(case insensitive)</option>
+                        <option phx-click="set_body_match" phx-value-body-match="contains" >Body contains ...</option>
+                        <option phx-click="set_body_match" phx-value-body-match="icontains" >Body contains ... (case insensitive)</option>
+                        <option phx-click="set_body_match" phx-value-body-match="starts_with" >Body starts with ...</option>
+                        <option phx-click="set_body_match" phx-value-body-match="istarts_with" >Body starts with ... (case insensitive)</option>
+                        <option phx-click="set_body_match" phx-value-body-match="ends_with" >Body ends with ...</option>
+                        <option phx-click="set_body_match" phx-value-body-match="iends_with" >Body ends with ... (case insensitive)</option>
+                        <option phx-click="set_body_match" phx-value-body-match="regex" >Body matches regex with ...</option>
+                    </select>
+                </div>
+            <% end %>
+    </div>
+    <div class="success_conditions">
+    </div>
+</div>

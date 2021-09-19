@@ -110,63 +110,10 @@
 
 
     <section class="row, container">
-        <div class="pannel_head">
-            <h4>Success conditions</h4>
-        </div>
-        <div class="pannel_body">            
-            <div class="new_success_condition">
-                <%= if @new_condition_type == "none" do%>
-                    <button phx-click="add_condition_click">Add condition</button>
-                <% else %>
-                    <div class="select_new_condition_type">
-                        <select id="new_condition_type" class="small_select">
-                            <option disabled selected value> Select a type of condition </option>
-                            <option phx-click="set_condition_type" phx-value-new-condition-type="status_code" >Status code condition</option>
-                            <option phx-click="set_condition_type" phx-value-new-condition-type="headers" >Headers condition</option>
-                            <option phx-click="set_condition_type" phx-value-new-condition-type="body">Body condition </option>
-                        </select>
-                    </div>
-                    <%= if @new_condition_type == "status_code" do %>
-                    <div class="select_status_code_match">
-                        <select id="status_code_match" class="small_select">
-                            <option disabled selected value> Select a type status code condition </option>
-                            <option phx-click="set_status_code_match" phx-value-status-code-match="equality" >Equality</option>
-                            <option phx-click="set_status_code_match" phx-value-status-code-match="code_range" >Code range</option>
-                            <option phx-click="set_status_code_match" phx-value-status-code-match="code_class">Code class</option>
-                            <option phx-click="set_status_code_match" phx-value-status-code-match="code_regex">Code regex</option>
-                        </select>
-                    </div>
-                    <% end %>
-                    <%= if @new_condition_type == "headers" do%>
-                    <div class="select_headers_match">
-                        <select id="sheaders_match" class="small_select">
-                            <option disabled selected value> Select a type of header condition </option>
-                            <option phx-click="set_headers_match" phx-value-headers-match="has_header_key" >Has header key</option>
-                            <option phx-click="set_headers_match" phx-value-headers-match="has_header" >Has exact header</option>
-                        </select>
-                    </div>
-                    <% end %>
-                    <%= if @new_condition_type == "body" do%>
-                    <div class="select_body_match">
-                        <select id="body_match" class="small_select">
-                            <option disabled selected value> Select a type of header condition </option>
-                            <option phx-click="set_body_match" phx-value-body-match="exact" >Body exactly matches ...</option>
-                            <option phx-click="set_body_match" phx-value-body-match="iexact" >Body exactly matches ...(case insensitive)</option>
-                            <option phx-click="set_body_match" phx-value-body-match="contains" >Body contains ...</option>
-                            <option phx-click="set_body_match" phx-value-body-match="icontains" >Body contains ... (case insensitive)</option>
-                            <option phx-click="set_body_match" phx-value-body-match="starts_with" >Body starts with ...</option>
-                            <option phx-click="set_body_match" phx-value-body-match="istarts_with" >Body starts with ... (case insensitive)</option>
-                            <option phx-click="set_body_match" phx-value-body-match="ends_with" >Body ends with ...</option>
-                            <option phx-click="set_body_match" phx-value-body-match="iends_with" >Body ends with ... (case insensitive)</option>
-                            <option phx-click="set_body_match" phx-value-body-match="regex" >Body matches regex with ...</option>
-                        </select>
-                    </div>
-                    <% end %>
-                <%end%>
-            </div>
-            <div class="success_conditions">
-            </div>
-        </div>
+    <div class="pannel_head">
+        <h4>Success conditions</h4>
+    </div>
+    <%= render NurseWeb.CheckConditionView, "condition.html", condition_map: @condition_map , condition_id: 0%>
     </section>
     
 </section>
