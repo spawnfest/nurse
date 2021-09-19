@@ -1,7 +1,8 @@
 defmodule NurseWeb.ChecksLive do
-    use NurseWeb, :live_view
-    import Phoenix.LiveView.Helpers
-    require Logger
+  use NurseWeb, :live_view
+  import Phoenix.LiveView.Helpers
+  require Logger
+
 
     def mount(_params, session, socket) do
         Process.send_after(self(), :update, 5000)

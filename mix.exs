@@ -15,12 +15,10 @@ defmodule Nurse.MixProject do
   end
 
   # Configuration for the OTP application.
-  #
-  # Type `mix help compile.app` for more information.
   def application do
     [
       mod: {Nurse.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ex_unit]
     ]
   end
 
@@ -28,34 +26,31 @@ defmodule Nurse.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  # Specifies your project dependencies.
-  #
-  # Type `mix help deps` for examples and options.
+  # Project dependencies.
   defp deps do
     [
+      {:bypass, "~> 2.1", only: :test},
+      {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
+      {:ecto_sql, "~> 3.6"},
+      {:floki, ">= 0.30.0", only: :test},
+      {:gettext, "~> 0.11"},
+      {:httpoison, "~> 1.8"},
+      {:jason, "~> 1.0"},
       {:phoenix, "~> 1.5.12"},
       {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
-      {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_view, "~> 0.15.1"},
-      {:floki, ">= 0.30.0", only: :test},
       {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.4"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_view, "~> 0.15.1"},
+      {:plug_cowboy, "~> 2.0"},
+      {:poison, "~> 5.0"},
+      {:postgrex, ">= 0.0.0"},
       {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:telemetry_poller, "~> 0.4"}
     ]
   end
 
-  # Aliases are shortcuts or tasks specific to the current project.
-  # For example, to install project dependencies and perform other setup tasks, run:
-  #
-  #     $ mix setup
-  #
-  # See the documentation for `Mix` for more info on aliases.
+  # Aliases
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
