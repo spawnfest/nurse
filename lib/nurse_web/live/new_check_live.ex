@@ -1,9 +1,8 @@
 defmodule NurseWeb.NewCheckLive do
   use NurseWeb, :live_view
-  import Phoenix.LiveView.Helpers
   require Logger
 
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     socket =
       assign(socket, new_condition_type: "none")
       |> assign(condition_map: %{})
@@ -838,16 +837,16 @@ defmodule NurseWeb.NewCheckLive do
 
   defp validate_input_values(
          %{
-           "check_delay" => check_delay,
-           "connection_timeout" => connection_timeout,
-           "evaluation_interval" => evaluation_interval,
-           "request_body" => request_body,
-           "request_header" => request_header,
-           "request_hostname" => request_hostname,
-           "request_port" => request_port,
-           "request_scheme" => request_scheme,
-           "response_timeout" => response_timeout,
-           "retry_delay" => retry_delay
+           "check_delay" => _check_delay,
+           "connection_timeout" => _connection_timeout,
+           "evaluation_interval" => _evaluation_interval,
+           "request_body" => _request_body,
+           "request_header" => _request_header,
+           "request_hostname" => _request_hostname,
+           "request_port" => _request_port,
+           "request_scheme" => _request_scheme,
+           "response_timeout" => _response_timeout,
+           "retry_delay" => _retry_delay
          } = properties
        ) do
     properties
@@ -855,12 +854,14 @@ defmodule NurseWeb.NewCheckLive do
     |> validate_multi()
   end
 
-  defp validate_input_values(params) do
+  defp validate_input_values(_params) do
     {:field, "missing_params"}
   end
 
+  defp validate_multi([]), do: true
+
   defp validate_multi([{key, val} | t]) do
-    case validate_one(key, val) do
+    case validate_one(key |> String.to_atom(), val) do
       true ->
         validate_multi(t)
 
@@ -869,11 +870,38 @@ defmodule NurseWeb.NewCheckLive do
     end
   end
 
-  defp validate_multi([]) do
-    true
+  defp validate_one(:check_delay, value) do
+    try do
+      value
+      |> String.to_integer()
+
+      true
+    rescue
+      _error -> false
+    end
   end
 
-  defp validate_one(any, value) do
-    true
+  defp validate_one(:connection_timeout, value) do
+    try do
+      value
+      |> String.to_integer()
+
+      true
+    rescue
+      _error -> false
+    end
   end
+
+  defp validate_one(:evaluation_interval, value) do
+    try do
+      value
+      |> String.to_integer()
+
+      true
+    rescue
+      _error -> false
+    end
+  end
+
+  defp validate_one(_any, _value), do: false
 end

@@ -1,7 +1,6 @@
 defmodule Nurse.CondMap do
-  def put_new_son_of(map, "0", "simple", _side) when map == %{} do
-    %{key: "simple", condition_id: "0S", params: %{}}
-  end
+  def put_new_son_of(map, "0", "simple", _side) when map == %{},
+    do: %{key: "simple", condition_id: "0S", params: %{}}
 
   def put_new_son_of(map, "0", son_type, _side) when map == %{} do
     %{
@@ -12,116 +11,33 @@ defmodule Nurse.CondMap do
     }
   end
 
-  def update_condition_params(map, condition_id, update) when map == %{} do
-    {:error, :empty_map}
-  end
-
-  def update_condition_params(
-        %{
-          key: key,
-          condition_id: condition_id,
-          fst: first,
-          snd: second
-        },
-        condition_id,
-        update
-      ) do
-    {:error, :wrong_id}
-  end
-
-  def update_condition_params(
-        %{
-          key: key,
-          condition_id: condition_id,
-          params: params
-        },
-        condition_id,
-        update
-      ) do
-    %{
-      key: key,
-      condition_id: condition_id,
-      params: Map.merge(params, update)
-    }
-  end
-
-  def update_condition_params(
-        %{
-          key: key,
-          condition_id: condition_id,
-          params: params
-        },
-        parent_id,
-        update
-      ) do
-    {:error, :wrong_path}
-  end
-
-  def update_condition_params(
-        %{
-          key: key,
-          condition_id: parent_id,
-          fst: first,
-          snd: second
-        },
-        condition_id,
-        update
-      ) do
-    case update_condition_params(first, condition_id, update) do
-      error when error in [{:error, :empty_map}, {:error, :wrong_path}, {:error, :wrong_id}] ->
-        case update_condition_params(second, condition_id, update) do
-          error
-          when error in [{:error, :empty_map}, {:error, :wrong_path}, {:error, :wrong_id}] ->
-            error
-
-          map ->
-            %{
-              key: key,
-              condition_id: parent_id,
-              fst: first,
-              snd: map
-            }
-        end
-
-      map ->
-        %{
-          key: key,
-          condition_id: parent_id,
-          fst: map,
-          snd: second
-        }
-    end
-  end
-
   def put_new_son_of(
         %{
-          key: key,
+          key: _key,
           condition_id: parent_id,
           fst: first,
-          snd: second
+          snd: _second
         },
         parent_id,
-        son_type,
+        _son_type,
         "first"
       )
-      when first != %{} do
-    {:error, :bad_arg, "Parent has 2 childs already"}
-  end
+      when first != %{},
+      do: {:error, :bad_arg, "Parent has 2 childs already"}
 
   def put_new_son_of(
         %{
-          key: key,
+          key: _key,
           condition_id: parent_id,
-          fst: first,
+          fst: _first,
           snd: second
         },
         parent_id,
-        son_type,
+        _son_type,
         "second"
       )
-      when second != %{} do
-    {:error, :bad_arg, "Parent has 2 childs already"}
-  end
+      when second != %{},
+      do: {:error, :bad_arg, "Parent has 2 childs already"}
 
   def put_new_son_of(
         %{
@@ -223,9 +139,8 @@ defmodule Nurse.CondMap do
         _parent_id,
         _son_type,
         _side
-      ) do
-    {:error, :wrong_path}
-  end
+      ),
+      do: {:error, :wrong_path}
 
   def put_new_son_of(map, parent_id, son_type, "first") when map == %{} do
     %{
@@ -243,9 +158,88 @@ defmodule Nurse.CondMap do
     |> Map.merge(get_son_default_map(son_type))
   end
 
-  def validate(map) when map == %{} do
-    false
+  def update_condition_params(map, _condition_id, _update) when map == %{},
+    do: {:error, :empty_map}
+
+  def update_condition_params(
+        %{
+          key: _key,
+          # TODO:
+          condition_id: condition_id,
+          fst: _first,
+          snd: _second
+        },
+        condition_id,
+        _update
+      ) do
+    {:error, :wrong_id}
   end
+
+  def update_condition_params(
+        %{
+          key: key,
+          condition_id: condition_id,
+          params: params
+        },
+        condition_id,
+        update
+      ) do
+    %{
+      key: key,
+      condition_id: condition_id,
+      params: Map.merge(params, update)
+    }
+  end
+
+  def update_condition_params(
+        %{
+          key: _key,
+          condition_id: _condition_id,
+          params: _params
+        },
+        _parent_id,
+        _update
+      ) do
+    {:error, :wrong_path}
+  end
+
+  def update_condition_params(
+        %{
+          key: key,
+          condition_id: parent_id,
+          fst: first,
+          snd: second
+        },
+        condition_id,
+        update
+      ) do
+    case update_condition_params(first, condition_id, update) do
+      error when error in [{:error, :empty_map}, {:error, :wrong_path}, {:error, :wrong_id}] ->
+        case update_condition_params(second, condition_id, update) do
+          error
+          when error in [{:error, :empty_map}, {:error, :wrong_path}, {:error, :wrong_id}] ->
+            error
+
+          map ->
+            %{
+              key: key,
+              condition_id: parent_id,
+              fst: first,
+              snd: map
+            }
+        end
+
+      map ->
+        %{
+          key: key,
+          condition_id: parent_id,
+          fst: map,
+          snd: second
+        }
+    end
+  end
+
+  def validate(map) when map == %{}, do: false
 
   def validate(%{key: _key, condition_id: _condition_id, params: params}) do
     case params do
@@ -257,27 +251,16 @@ defmodule Nurse.CondMap do
     end
   end
 
-  def validate(%{key: _key, condition_id: _condition_id, first: fst, second: snd}) do
-    validate(fst) and validate(snd)
-  end
+  def validate(%{key: _key, condition_id: _condition_id, first: fst, second: snd}),
+    do: validate(fst) and validate(snd)
 
-  defp get_type_id("simple") do
-    "S"
-  end
+  defp get_type_id("simple"), do: "S"
 
-  defp get_type_id("and") do
-    "A"
-  end
+  defp get_type_id("and"), do: "A"
 
-  defp get_type_id("or") do
-    "O"
-  end
+  defp get_type_id("or"), do: "O"
 
-  defp get_son_default_map("simple") do
-    %{params: %{}}
-  end
+  defp get_son_default_map("simple"), do: %{params: %{}}
 
-  defp get_son_default_map(other) do
-    %{fst: %{}, snd: %{}}
-  end
+  defp get_son_default_map(_other), do: %{fst: %{}, snd: %{}}
 end
